@@ -938,7 +938,7 @@ button{font:inherit} img{display:block;max-width:100%}
 </div>
 
 <div class="modal" id="badgeModal"><div class="modal-card"><button class="modal-close" data-close="badgeModal">×</button><h2>🏆 全16実績</h2><div class="all-badges" id="allBadges"></div></div></div>
-<div class="modal" id="settingsModal"><div class="modal-card"><button class="modal-close" data-close="settingsModal">×</button><h2>⚙️ 設定</h2><div class="settings-row"><div><b>サウンド</b><div style="font-size:12px;color:var(--muted)">BGM・効果音・ファンファーレ</div></div><button class="switch on" id="soundSwitch"><i></i></button></div><div class="settings-row"><div><b>記録をリセット</b><div style="font-size:12px;color:var(--muted)">ベスト、プレイ回数、実績を削除</div></div><button class="btn secondary" style="width:auto;margin:0" id="resetBtn">リセット</button></div><h3>デザイン参考</h3><img class="reference-image" id="statesRef" alt="ゲーム状態のデザイン参考"></div></div>
+<div class="modal" id="settingsModal"><div class="modal-card"><button class="modal-close" data-close="settingsModal">×</button><h2>⚙️ 設定</h2><div class="settings-row"><div><b>サウンド</b><div style="font-size:12px;color:var(--muted)">アップテンポBGM・効果音・ファンファーレ</div></div><button class="switch on" id="soundSwitch"><i></i></button></div><div class="settings-row"><div><b>記録をリセット</b><div style="font-size:12px;color:var(--muted)">ベスト、プレイ回数、実績を削除</div></div><button class="btn secondary" style="width:auto;margin:0" id="resetBtn">リセット</button></div><h3>デザイン参考</h3><img class="reference-image" id="statesRef" alt="ゲーム状態のデザイン参考"></div></div>
 
 <!-- 追加10素材も全てHTMLへ埋め込み済み。参照用に非表示で保持 -->
 <div class="asset-proof" id="assetProof"></div>
@@ -1198,7 +1198,7 @@ function ensureBgmGain(){
   if(!audio)return null;
   if(!bgmGain){
     bgmGain=audio.createGain();
-    bgmGain.gain.value=.035;
+    bgmGain.gain.value=.045;
     bgmGain.connect(audio.destination);
   }
   return bgmGain;
@@ -1223,22 +1223,51 @@ function scheduleBgmBar(){
   primeAudio();
   if(!audio)return;
 
-  // Warm, playful KUMAGORO theme: light pentatonic marimba/chiptune feel.
+  /*
+    KUMAGORO energetic theme:
+    - brighter major-key melody
+    - syncopated rhythm
+    - light bass pulse
+    - higher energy than the previous mellow loop
+    - still soft enough not to distract from reaction timing
+  */
   const melody=[
-    523.25,659.25,783.99,659.25,
-    587.33,698.46,880.00,698.46,
-    523.25,659.25,783.99,987.77,
-    880.00,783.99,659.25,587.33
+    659.25,783.99,880.00,987.77,
+    783.99,880.00,1046.50,987.77,
+    659.25,783.99,987.77,1174.66,
+    1046.50,987.77,880.00,783.99
   ];
-  const bass=[261.63,293.66,261.63,220.00];
-  const stepDur=.22;
-  const start=audio.currentTime+.03;
+  const harmony=[
+    523.25,659.25,698.46,783.99,
+    587.33,698.46,783.99,880.00
+  ];
+  const bass=[261.63,293.66,329.63,392.00];
+  const stepDur=.17;
+  const start=audio.currentTime+.02;
 
   for(let i=0;i<4;i++){
     const idx=(bgmStep+i)%melody.length;
-    bgmNote(melody[idx],.16,(i*stepDur),'triangle',.035);
-    if(i===0) bgmNote(bass[Math.floor(bgmStep/4)%bass.length],.42,0,'sine',.018);
+    const beat=i*stepDur;
+
+    // Main melody
+    bgmNote(melody[idx],.115,beat,'square',.026);
+
+    // Softer upper harmony on off-beats
+    if(i===1||i===3){
+      bgmNote(harmony[(Math.floor(bgmStep/2)+i)%harmony.length],.11,beat+.035,'triangle',.018);
+    }
+
+    // Rhythmic bass pulse
+    if(i===0||i===2){
+      bgmNote(bass[Math.floor((bgmStep+i)/4)%bass.length],.16,beat,'sine',.024);
+    }
+
+    // Tiny sparkle accent for forward momentum
+    if(i===3){
+      bgmNote(melody[(idx+2)%melody.length]*2,.07,beat+.06,'triangle',.012);
+    }
   }
+
   bgmStep=(bgmStep+4)%melody.length;
   bgmTimer=setTimeout(scheduleBgmBar,Math.round(stepDur*4*1000));
 }

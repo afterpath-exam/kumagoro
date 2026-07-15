@@ -842,6 +842,149 @@ button{font:inherit} img{display:block;max-width:100%}
   }
 }
 
+
+/* ===== v11: equipped title selector ===== */
+.selected-title-bar{
+  width:100%;
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.selected-title-label{
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.14em;
+  color:#9b7656;
+}
+.selected-title-button{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  max-width:min(520px,100%);
+  min-height:42px;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid #d8c3a9;
+  background:linear-gradient(180deg,#fffdf8,#fff4e6);
+  color:#5a4a42;
+  box-shadow:0 7px 18px rgba(100,75,50,.10);
+  cursor:pointer;
+  font-weight:1000;
+}
+.selected-title-button:hover{
+  transform:translateY(-1px);
+}
+.selected-title-crown{
+  font-size:18px;
+}
+.selected-title-chevron{
+  font-size:11px;
+  color:#9a806b;
+}
+#selectedTitleText{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.title-select-modal-card{
+  width:min(620px,100%);
+}
+.title-select-note{
+  margin:-5px 0 14px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.title-select-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.title-select-option{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px 14px;
+  background:#fffdf9;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+  transition:.18s;
+}
+.title-select-option:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(100,75,50,.10);
+}
+.title-select-option.selected{
+  border-color:#e2b66a;
+  background:linear-gradient(180deg,#fff9e6,#fff0ca);
+  box-shadow:0 0 0 2px rgba(237,188,86,.18);
+}
+.title-select-option strong{
+  display:block;
+  font-size:14px;
+}
+.title-select-option small{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.35;
+}
+.title-select-empty{
+  grid-column:1/-1;
+  padding:18px;
+  border:1px dashed var(--line);
+  border-radius:18px;
+  text-align:center;
+  color:var(--muted);
+  background:#fffaf4;
+  font-weight:800;
+}
+
+@media(max-width:620px){
+  .selected-title-bar{
+    margin:0 0 8px;
+    gap:6px;
+    flex-direction:column;
+  }
+  .selected-title-label{
+    font-size:8px;
+  }
+  .selected-title-button{
+    width:100%;
+    justify-content:center;
+    min-height:40px;
+    padding:7px 12px;
+    font-size:13px;
+  }
+  .title-select-list{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== v14: prevent restart headline wrapping on mobile ===== */
+@media(max-width:620px){
+  #mainCopy{
+    white-space:nowrap;
+    font-size:clamp(30px,9.5vw,42px);
+    letter-spacing:-0.02em;
+  }
+
+  .restart-gate.show ~ #mainCopy,
+  .reaction.idle #mainCopy{
+    max-width:100%;
+  }
+}
+
+@media(max-width:360px){
+  #mainCopy{
+    font-size:28px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -860,6 +1003,16 @@ button{font:inherit} img{display:block;max-width:100%}
   </header>
 
   <div class="bgm-indicator" id="bgmIndicator">♪ BGM ON</div>
+
+  <section class="selected-title-bar" id="selectedTitleBar">
+    <div class="selected-title-label">EQUIPPED TITLE</div>
+    <button class="selected-title-button" id="selectedTitleButton" type="button">
+      <span class="selected-title-crown">🏅</span>
+      <span id="selectedTitleText">称号を選択</span>
+      <span class="selected-title-chevron">▼</span>
+    </button>
+  </section>
+
 <main class="main-grid">
     <aside class="left-col">
       <div class="hero-bear"><img id="wavingBear" alt="手を振るKUMAGORO"></div>
@@ -937,6 +1090,16 @@ button{font:inherit} img{display:block;max-width:100%}
   <div class="footer"><img id="footerBear">Fast, fun, and bear-y addictive! <img class="heart" id="footerHeart"></div>
 </div>
 
+
+<div class="modal" id="titleSelectModal">
+  <div class="modal-card title-select-modal-card">
+    <button class="modal-close" data-close="titleSelectModal">×</button>
+    <h2>🏅 表示する称号を選択</h2>
+    <p class="title-select-note">獲得済みの称号から、メイン画面に表示する称号を1つ選べます。</p>
+    <div class="title-select-list" id="titleSelectList"></div>
+  </div>
+</div>
+
 <div class="modal" id="badgeModal"><div class="modal-card"><button class="modal-close" data-close="badgeModal">×</button><h2>🏆 全16実績</h2><div class="all-badges" id="allBadges"></div></div></div>
 <div class="modal" id="settingsModal"><div class="modal-card"><button class="modal-close" data-close="settingsModal">×</button><h2>⚙️ 設定</h2><div class="settings-row"><div><b>サウンド</b><div style="font-size:12px;color:var(--muted)">アップテンポBGM・効果音・ファンファーレ</div></div><button class="switch on" id="soundSwitch"><i></i></button></div><div class="settings-row"><div><b>記録をリセット</b><div style="font-size:12px;color:var(--muted)">ベスト、プレイ回数、実績を削除</div></div><button class="btn secondary" style="width:auto;margin:0" id="resetBtn">リセット</button></div><h3>デザイン参考</h3><img class="reference-image" id="statesRef" alt="ゲーム状態のデザイン参考"></div></div>
 
@@ -1004,7 +1167,7 @@ const ASSETS={"badge_blazing":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPA
 'use strict';
 const $=id=>document.getElementById(id);
 const STORE='kumagoro_complete_v3';
-const base={plays:0,best:null,bestUpdates:0,flyings:0,recoveries:0,stableClears:0,shareCount:0,badges:{},history:[],allComplete:false,sound:true,bondLevel:0,bondMilestones:[],comboBest:0,rareSeen:{},lastRare:null};
+const base={plays:0,best:null,bestUpdates:0,flyings:0,recoveries:0,stableClears:0,shareCount:0,badges:{},history:[],allComplete:false,sound:true,bondLevel:0,bondMilestones:[],comboBest:0,rareSeen:{},lastRare:null,selectedTitle:null,rareMissStreak:0};
 let data=load(),state='idle',round=0,times=[],waitTimer=null,readyAt=0,hadFlying=false,latestResult=null,audio=null,bgmTimer=null,bgmStep=0,bgmGain=null;
 
 
@@ -1111,12 +1274,41 @@ function applyRareClass(img,rare){
   if(rare)img.classList.add(rare.cls);
 }
 function maybeRareEncounter(){
-  // 3% encounter chance per new game. New players get protection from overly early rarity.
-  if(data.plays<2||Math.random()>=0.03){data.lastRare=null;return null}
+  /*
+    Balanced rare encounter system:
+    - Base chance: 5% per new game (about 1 in 20)
+    - After 12 consecutive non-rare games, chance rises gently by +1.5 percentage points per miss
+    - Guaranteed encounter at 25 consecutive misses
+    - First two plays are protected from rare encounters
+  */
+  if(data.plays<2){
+    data.lastRare=null;
+    return null;
+  }
+
+  data.rareMissStreak=data.rareMissStreak||0;
+
+  let chance=.05;
+  if(data.rareMissStreak>=12){
+    chance+=Math.min(.20,(data.rareMissStreak-11)*.015);
+  }
+
+  const guaranteed=data.rareMissStreak>=25;
+  const hit=guaranteed||Math.random()<chance;
+
+  if(!hit){
+    data.rareMissStreak++;
+    data.lastRare=null;
+    save();
+    return null;
+  }
+
+  data.rareMissStreak=0;
   const unseen=RARES.filter(r=>!data.rareSeen?.[r.id]);
   const pool=unseen.length?unseen:RARES;
   const rare=pool[Math.floor(Math.random()*pool.length)];
   data.lastRare=rare.id;
+  save();
   return rare;
 }
 function showRareCelebration(rare){
@@ -1179,7 +1371,7 @@ const comments={
  slow:['のんびりクマモード。でも伸びしろは大きい！','今日は慎重派。次の一手に期待。','焦らず再挑戦。記録更新はここからです。']
 };
 function load(){try{return {...base,...JSON.parse(localStorage.getItem(STORE)||'{}')}}catch{return {...base}}}
-function save(){localStorage.setItem(STORE,JSON.stringify(data));updateTop();renderBadges();renderTitles();updateMasteryUI();syncSound()}
+function save(){localStorage.setItem(STORE,JSON.stringify(data));updateTop();renderBadges();renderTitles();renderSelectedTitle();updateMasteryUI();syncSound()}
 function setImg(id,key){$(id).src=ASSETS[key]}
 function setStaticAssets(){
  setImg('logoImg','logo_primary');setImg('bondBear','bear_waving');setImg('statCrown','icon_crown');setImg('statGamepad','icon_gamepad');setImg('statStar','icon_progress_star');setImg('soundIcon','icon_sound');setImg('settingsIcon','icon_settings');setImg('wavingBear','bear_waving');setImg('miniBear','bear_face');setImg('resultFace','bear_face');setImg('rCrown','icon_crown');setImg('rGamepad','icon_gamepad');setImg('rStar','icon_progress_star');setImg('replayIcon','icon_replay');setImg('restartReplayIcon','icon_replay');setImg('copyIcon','icon_copy');setImg('footerBear','bear_face');setImg('footerHeart','icon_heart');setImg('statesRef','panel_states_reference');
@@ -1320,6 +1512,65 @@ function renderResult(){const r=latestResult;if(!r)return;$('resultCard').classL
 function checkBadges(r){const before={...data.badges},unlock=id=>data.badges[id]=true;if(data.plays>=1)unlock('p1');if(data.plays>=5)unlock('p5');if(data.plays>=10)unlock('p10');if(data.plays>=20)unlock('p20');if(data.plays>=30)unlock('p30');if(r.avg<500)unlock('t500');if(r.avg<400)unlock('t400');if(r.avg<300)unlock('t300');if(r.avg<260)unlock('t260');if(data.bestUpdates>=1)unlock('b1');if(data.bestUpdates>=2)unlock('b2');if(!r.hadFlying)unlock('clean');if(r.times.every(x=>x<350))unlock('all350');if(r.hadFlying)unlock('recovery');if(r.spread<=50)unlock('stable');if(data.shareCount>=1)unlock('share');return Object.keys(data.badges).filter(k=>!before[k])}
 function renderBadges(){const list=BADGES;$('badgeGrid').innerHTML=list.map(([id,n,d,img])=>`<div class="badge ${data.badges[id]?'unlocked':''}"><img src="${ASSETS[img]}"><b>${n}</b></div>`).join('');$('allBadges').innerHTML=BADGES.map(([id,n,d,img])=>`<div class="all-badge ${data.badges[id]?'':'locked'}"><img src="${ASSETS[img]}"><b>${n}</b><small>${d}</small></div>`).join('')}
 function getTitles(){const h=data.history,recent=h.slice(-10),t=[];if(data.best!=null&&data.best<260)t.push('電光石火のクマ');if(data.best!=null&&data.best<300)t.push('俊足リアクター');if(data.plays>=30)t.push('百戦錬磨の常連');else if(data.plays>=20)t.push('継続の名手');if(data.stableClears>=3)t.push('ブレない職人');if(data.recoveries>=3)t.push('逆転王');if(data.flyings===0&&data.plays>=5)t.push('無事故運転クマ');if(recent.length>=5&&recent.filter(x=>x.avg<350).length>=5)t.push('高速巡航マスター');if(h.filter(x=>x.spread<=50).length>=5)t.push('精密時計');if(data.bestUpdates>=5)t.push('限界突破者');if(data.shareCount>=3)t.push('KUMAGORO広報大使');return t}
+
+function titleDescription(name){
+  const map={
+    '電光石火のクマ':'ベスト260ms未満',
+    '俊足リアクター':'ベスト300ms未満',
+    '百戦錬磨の常連':'30回以上プレイ',
+    '継続の名手':'20回以上プレイ',
+    'ブレない職人':'安定感クリア3回以上',
+    '逆転王':'フライング後の完走3回以上',
+    '無事故運転クマ':'5回以上プレイ・フライング0回',
+    '高速巡航マスター':'直近10回のうち5回以上が350ms未満',
+    '精密時計':'安定感クリア5回以上',
+    '限界突破者':'自己ベスト更新5回以上',
+    'KUMAGORO広報大使':'結果シェア3回以上'
+  };
+  return map[name]||'獲得済み称号';
+}
+function ensureSelectedTitle(){
+  const titles=getTitles();
+  if(!titles.length){
+    data.selectedTitle=null;
+    return;
+  }
+  if(!data.selectedTitle||!titles.includes(data.selectedTitle)){
+    data.selectedTitle=titles[0];
+  }
+}
+function renderSelectedTitle(){
+  ensureSelectedTitle();
+  const text=$('selectedTitleText');
+  if(!text)return;
+  text.textContent=data.selectedTitle||'称号を選択';
+  $('selectedTitleButton').classList.toggle('has-title',!!data.selectedTitle);
+}
+function renderTitleSelectList(){
+  const list=$('titleSelectList');
+  const titles=getTitles();
+  if(!titles.length){
+    list.innerHTML='<div class="title-select-empty">まだ称号を獲得していません。プレイを重ねると、ここから選べるようになります。</div>';
+    return;
+  }
+  list.innerHTML=titles.map(name=>`
+    <button class="title-select-option ${data.selectedTitle===name?'selected':''}" data-title="${name}">
+      <strong>🏅 ${name}</strong>
+      <small>${titleDescription(name)}</small>
+    </button>
+  `).join('');
+  list.querySelectorAll('.title-select-option').forEach(btn=>{
+    btn.onclick=()=>{
+      data.selectedTitle=btn.dataset.title;
+      save();
+      renderSelectedTitle();
+      renderTitleSelectList();
+      closeModal('titleSelectModal');
+      toast(`表示する称号を「${data.selectedTitle}」に変更しました`);
+    };
+  });
+}
+
 function renderTitles(){const ts=getTitles();$('titles').innerHTML=ts.map(x=>`<span class="title-chip">${x}</span>`).join('');$('titleHint').style.display=ts.length?'none':'block'}
 async function shareResult(){if(!latestResult)return;try{const target=$('captureArea');const canvas=await html2canvas(target,{backgroundColor:'#fff9ef',scale:2,useCORS:true,logging:false});const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));if(navigator.clipboard&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);toast('結果画像をクリップボードへコピーしました')}else downloadBlob(blob);data.shareCount++;const newly=checkBadges(latestResult);save();if(newly.includes('share')){sounds.badge();toast('実績解除：シェア名人')}}catch(e){toast('画像コピーに失敗しました。ダウンロードを試します');try{const canvas=await html2canvas($('captureArea'),{backgroundColor:'#fff9ef'});canvas.toBlob(downloadBlob)}catch{}}}
 function downloadBlob(blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`KUMAGORO-${latestResult?.avg||'result'}ms.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('結果画像をダウンロードしました')}
@@ -1396,10 +1647,10 @@ $('restartStartBtn').onclick=(e)=>{
   beginFromRestartGate();
 };
 $('reactionBox').addEventListener('click',clickHandler);$('reactionBox').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();clickHandler()}});
-$('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
+$('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('selectedTitleButton').onclick=()=>{renderTitleSelectList();openModal('titleSelectModal')};$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
 $('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');$('restartGate').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
-function init(){setStaticAssets();setBear('idle');updateTop();renderBadges();renderTitles();renderRounds();updateMasteryUI();syncSound()}
+function init(){setStaticAssets();setBear('idle');updateTop();renderBadges();renderTitles();renderSelectedTitle();renderRounds();updateMasteryUI();syncSound()}
 init();
 })();
 </script>

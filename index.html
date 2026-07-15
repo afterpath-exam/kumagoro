@@ -415,14 +415,6 @@ button{font:inherit} img{display:block;max-width:100%}
     font-size:13px;
   }
 
-  /* Result mode: bring the result card directly under the game panel */
-  body.mobile-result .right-col{
-    order:-2;
-  }
-
-  body.mobile-result .result-card{
-    margin-top:0;
-  }
 
   /* Compact mode for short-height iPhones */
   @media (max-height: 700px){
@@ -757,6 +749,66 @@ button{font:inherit} img{display:block;max-width:100%}
   .rare-bear-stage{width:170px;height:170px}
 }
 
+
+/* ===== v7 refinements ===== */
+
+/* BGM continues during flying; no visual change needed. */
+
+/* KUMAGORO BOND should use the full available card width */
+.mastery-card{
+  width:100%;
+  max-width:none;
+  justify-self:stretch;
+}
+
+/* Result is visually merged into the main game frame */
+.result-fused{
+  margin-top:12px;
+  padding:18px 16px 16px;
+  border-top:1px solid var(--line);
+  border-radius:0 0 22px 22px;
+  background:
+    linear-gradient(180deg,rgba(255,250,243,.15) 0%,rgba(255,246,234,.9) 28%,#fff8ee 100%);
+  box-shadow:none;
+}
+
+.result-fused.show{
+  display:block;
+  animation:resultFuseIn .38s ease-out both;
+}
+
+.result-fused .result-banner{
+  margin-top:-30px;
+}
+
+@keyframes resultFuseIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:900px){
+  .mastery-card{
+    width:100%;
+  }
+}
+
+@media(max-width:620px){
+  .mastery-card{
+    width:100%;
+    margin-top:10px;
+  }
+
+  .result-fused{
+    margin-top:8px;
+    padding:16px 10px 12px;
+    border-radius:0 0 18px 18px;
+  }
+
+  .result-fused .result-banner{
+    margin-top:-25px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -815,15 +867,7 @@ button{font:inherit} img{display:block;max-width:100%}
         </div>
         <div class="rounds" id="rounds"></div>
 
-        <div class="main-actions" id="mainActions">
-          <button class="btn primary" id="againBtn"><img id="replayIcon">もう一度プレイ</button>
-          <button class="btn secondary" id="shareBtn"><img id="copyIcon">結果画像をコピー</button>
-        </div>
-      </div>
-    </section>
-
-    <aside class="right-col">
-      <section class="card result-card" id="resultCard">
+      <section class="result-card result-fused" id="resultCard">
         <div class="result-banner" id="resultBanner">RESULT!</div>
         <h2>🐾 Average 🐾</h2>
         <div class="result-average" id="resultAverage">--- ms</div>
@@ -834,6 +878,16 @@ button{font:inherit} img{display:block;max-width:100%}
           <div class="rstat"><img id="rGamepad"><b>Plays</b><strong id="rPlays">0</strong></div>
           <div class="rstat"><img id="rStar"><b>Rounds</b><strong>3 / 3</strong></div>
         </div>      </section>
+
+
+        <div class="main-actions" id="mainActions">
+          <button class="btn primary" id="againBtn"><img id="replayIcon">もう一度プレイ</button>
+          <button class="btn secondary" id="shareBtn"><img id="copyIcon">結果画像をコピー</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="right-col">
 
       <section class="card ach-card">
         <div class="ach-head"><h2>🐾 実績</h2><span id="badgeCount">0/16</span></div>
@@ -1128,7 +1182,7 @@ function bgmNote(freq,dur=.18,delay=0,type='triangle',vol=.045){
   o.stop(t+dur+.03);
 }
 function scheduleBgmBar(){
-  if(!data.sound||!['waiting','ready','between'].includes(state)){stopBgm();return;}
+  if(!data.sound||!['waiting','ready','between','flying'].includes(state)){stopBgm();return;}
   primeAudio();
   if(!audio)return;
 
@@ -1240,7 +1294,7 @@ function syncSound(){const on=data.sound;$('soundBtn').classList.toggle('muted',
 function openModal(id){$(id).classList.add('show')}
 function closeModal(id){$(id).classList.remove('show')}
 $('reactionBox').addEventListener('click',clickHandler);$('reactionBox').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();clickHandler()}});
-$('againBtn').onclick=startGame;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between'].includes(state))startBgm();save()};
+$('againBtn').onclick=startGame;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
 $('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
 function init(){setStaticAssets();setBear('idle');updateTop();renderBadges();renderTitles();renderRounds();updateMasteryUI();syncSound()}
@@ -1256,7 +1310,7 @@ init();
     const resultCard = document.getElementById('resultCard');
     if (!resultCard) return;
     const isResult = resultCard.classList.contains('show');
-    document.body.classList.toggle('mobile-result', mq.matches && isResult);
+    document.body.classList.remove('mobile-result');
   }
 
   function observeResultCard() {

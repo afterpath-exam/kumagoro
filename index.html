@@ -1349,11 +1349,23 @@ function showTitleCelebrations(titles){
 
 function toast(msg,ms=2200){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(()=>t.classList.remove('show'),ms)}
 function confetti(){const c=$('confetti'),palette=['#f1685d','#f3a13b','#8eb36d','#76649b','#c4a78f'];c.innerHTML='';for(let i=0;i<120;i++){const el=document.createElement('i');el.style.left=Math.random()*100+'vw';el.style.background=palette[i%palette.length];el.style.setProperty('--x',(Math.random()*260-130)+'px');el.style.animationDelay=(Math.random()*.75)+'s';el.style.animationDuration=(2+Math.random()*1.8)+'s';c.appendChild(el)}setTimeout(()=>c.innerHTML='',4400)}
-function clickHandler(){primeAudio();if(state==='idle')startGame();else if(state==='restartReady')return;else if(state==='waiting')flying();else if(state==='ready')record();else if(state==='between')startRound()}
+function clickHandler(e){
+  if(e && e.target && e.target.closest && e.target.closest('#restartStartBtn')) return;
+  primeAudio();
+  if(state==='idle') startGame();
+  else if(state==='restartReady') return;
+  else if(state==='waiting') flying();
+  else if(state==='ready') record();
+  else if(state==='between') startRound();
+}
 function syncSound(){const on=data.sound;$('soundBtn').classList.toggle('muted',!on);$('soundSwitch').classList.toggle('on',on);if($('bgmIndicator'))$('bgmIndicator').textContent=on?'♪ BGM ON':'♪ BGM OFF'}
 function openModal(id){$(id).classList.add('show')}
 function closeModal(id){$(id).classList.remove('show')}
-$('restartStartBtn').onclick=beginFromRestartGate;
+$('restartStartBtn').onclick=(e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  beginFromRestartGate();
+};
 $('reactionBox').addEventListener('click',clickHandler);$('reactionBox').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();clickHandler()}});
 $('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));

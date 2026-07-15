@@ -474,6 +474,20 @@ button{font:inherit} img{display:block;max-width:100%}
   }
 }
 
+
+/* ===== Achievement panel v2: show all 16 badges ===== */
+.badge-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+@media(max-width:1120px){
+  .badge-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+}
+@media(max-width:620px){
+  .ach-card{padding:10px;}
+  .badge-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;}
+  .badge{min-height:74px;padding:4px 1px;}
+  .badge img{width:34px;height:34px;}
+  .badge b{font-size:7px;line-height:1.05;}
+}
+
 </style>
 </head>
 <body>
@@ -537,7 +551,7 @@ button{font:inherit} img{display:block;max-width:100%}
       <section class="card ach-card">
         <div class="ach-head"><h2>🐾 実績</h2><span id="badgeCount">0/16</span></div>
         <div class="badge-grid" id="badgeGrid"></div>
-        <button class="view-all" id="viewAllBadges">16個の実績をすべて見る →</button>
+        <button class="view-all" id="viewAllBadges">実績の詳細を見る →</button>
       </section>
     </aside>
   </main>
@@ -561,7 +575,7 @@ const base={plays:0,best:null,bestUpdates:0,flyings:0,recoveries:0,stableClears:
 let data=load(),state='idle',round=0,times=[],waitTimer=null,readyAt=0,hadFlying=false,latestResult=null,audio=null;
 
 const BADGES=[
- ['p1','はじめの一歩','1回プレイ','badge_first_steps'],['p5','ちょっと夢中','5回プレイ','badge_quick_starter'],['p10','反射神経部','10回プレイ','badge_speedy'],['p20','継続の達人','20回プレイ','badge_perfect3'],['p50','KUMAGORO常連','50回プレイ','badge_master_bear'],
+ ['p1','はじめの一歩','1回プレイ','badge_first_steps'],['p5','ちょっと夢中','5回プレイ','badge_quick_starter'],['p10','反射神経部','10回プレイ','badge_speedy'],['p20','継続の達人','20回プレイ','badge_perfect3'],['p30','KUMAGORO常連','30回プレイ','badge_master_bear'],
  ['t500','500msの壁','平均500ms未満','badge_first_steps'],['t400','なかなか速い','平均400ms未満','badge_quick_starter'],['t300','俊敏クマ','平均300ms未満','badge_speedy'],['t260','電光石火','平均260ms未満','badge_sub250'],
  ['b1','自己ベスト！','自己ベストを1回更新','badge_legend'],['b2','さらに更新！','自己ベストを2回更新','badge_master_bear'],['clean','ノーフライング','フライングなしで完走','badge_perfect3'],['all350','三本快走','3回とも350ms未満','badge_blazing'],['recovery','逆転のクマ','フライング後に完走','badge_legend'],['stable','安定感','3回の差が50ms以内','badge_master_bear'],['share','シェア名人','結果を画像で共有','badge_quick_starter']
 ];
@@ -597,9 +611,9 @@ function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function commentFor(avg){return pick(avg<260?comments.super:avg<320?comments.fast:avg<400?comments.good:avg<500?comments.avg:comments.slow)}
 function finish(){const avg=Math.round(times.reduce((a,b)=>a+b,0)/3),spread=Math.max(...times)-Math.min(...times),oldBest=data.best;data.plays++;if(hadFlying)data.recoveries++;if(spread<=50)data.stableClears++;let newBest=false;if(oldBest==null||avg<oldBest){data.best=avg;if(oldBest!=null)data.bestUpdates++;newBest=true}data.history.push({avg,times:[...times],flying:hadFlying,spread,date:Date.now()});data.history=data.history.slice(-100);latestResult={avg,times:[...times],spread,hadFlying,newBest,comment:commentFor(avg)};const newly=checkBadges(latestResult);state='result';setClass('result');setBear('result');$('mainCopy').innerHTML=`<span class="time-big">${avg}<span class="ms">ms</span></span>`;$('subCopy').innerHTML=`${latestResult.comment}<br><span style="font-size:.86em">${times.join(' / ')} ms</span>`;renderRounds();renderResult();sounds.result();save();if(newly.length)setTimeout(()=>{sounds.badge();toast(`実績解除：${newly.map(id=>BADGES.find(b=>b[0]===id)[1]).join(' / ')}`)},400);if(Object.keys(data.badges).length===16&&!data.allComplete){data.allComplete=true;save();setTimeout(()=>{sounds.fanfare();confetti();toast('全16実績コンプリート！',3300)},850)}}
 function renderResult(){const r=latestResult;if(!r)return;$('resultCard').classList.add('show');$('resultBanner').textContent=r.newBest?'NEW BEST!':'RESULT!';$('resultAverage').textContent=r.avg+' ms';$('resultComment').textContent=r.comment;updateResultStats()}
-function checkBadges(r){const before={...data.badges},unlock=id=>data.badges[id]=true;if(data.plays>=1)unlock('p1');if(data.plays>=5)unlock('p5');if(data.plays>=10)unlock('p10');if(data.plays>=20)unlock('p20');if(data.plays>=50)unlock('p50');if(r.avg<500)unlock('t500');if(r.avg<400)unlock('t400');if(r.avg<300)unlock('t300');if(r.avg<260)unlock('t260');if(data.bestUpdates>=1)unlock('b1');if(data.bestUpdates>=2)unlock('b2');if(!r.hadFlying)unlock('clean');if(r.times.every(x=>x<350))unlock('all350');if(r.hadFlying)unlock('recovery');if(r.spread<=50)unlock('stable');if(data.shareCount>=1)unlock('share');return Object.keys(data.badges).filter(k=>!before[k])}
-function renderBadges(){const list=BADGES.slice(0,8);$('badgeGrid').innerHTML=list.map(([id,n,d,img])=>`<div class="badge ${data.badges[id]?'unlocked':''}"><img src="${ASSETS[img]}"><b>${n}</b></div>`).join('');$('allBadges').innerHTML=BADGES.map(([id,n,d,img])=>`<div class="all-badge ${data.badges[id]?'':'locked'}"><img src="${ASSETS[img]}"><b>${n}</b><small>${d}</small></div>`).join('')}
-function getTitles(){const h=data.history,recent=h.slice(-10),t=[];if(data.best!=null&&data.best<260)t.push('電光石火のクマ');if(data.best!=null&&data.best<300)t.push('俊足リアクター');if(data.plays>=50)t.push('百戦錬磨の常連');else if(data.plays>=20)t.push('継続の名手');if(data.stableClears>=3)t.push('ブレない職人');if(data.recoveries>=3)t.push('逆転王');if(data.flyings===0&&data.plays>=5)t.push('無事故運転クマ');if(recent.length>=5&&recent.filter(x=>x.avg<350).length>=5)t.push('高速巡航マスター');if(h.filter(x=>x.spread<=50).length>=5)t.push('精密時計');if(data.bestUpdates>=5)t.push('限界突破者');if(data.shareCount>=3)t.push('KUMAGORO広報大使');return t}
+function checkBadges(r){const before={...data.badges},unlock=id=>data.badges[id]=true;if(data.plays>=1)unlock('p1');if(data.plays>=5)unlock('p5');if(data.plays>=10)unlock('p10');if(data.plays>=20)unlock('p20');if(data.plays>=30)unlock('p30');if(r.avg<500)unlock('t500');if(r.avg<400)unlock('t400');if(r.avg<300)unlock('t300');if(r.avg<260)unlock('t260');if(data.bestUpdates>=1)unlock('b1');if(data.bestUpdates>=2)unlock('b2');if(!r.hadFlying)unlock('clean');if(r.times.every(x=>x<350))unlock('all350');if(r.hadFlying)unlock('recovery');if(r.spread<=50)unlock('stable');if(data.shareCount>=1)unlock('share');return Object.keys(data.badges).filter(k=>!before[k])}
+function renderBadges(){const list=BADGES;$('badgeGrid').innerHTML=list.map(([id,n,d,img])=>`<div class="badge ${data.badges[id]?'unlocked':''}"><img src="${ASSETS[img]}"><b>${n}</b></div>`).join('');$('allBadges').innerHTML=BADGES.map(([id,n,d,img])=>`<div class="all-badge ${data.badges[id]?'':'locked'}"><img src="${ASSETS[img]}"><b>${n}</b><small>${d}</small></div>`).join('')}
+function getTitles(){const h=data.history,recent=h.slice(-10),t=[];if(data.best!=null&&data.best<260)t.push('電光石火のクマ');if(data.best!=null&&data.best<300)t.push('俊足リアクター');if(data.plays>=30)t.push('百戦錬磨の常連');else if(data.plays>=20)t.push('継続の名手');if(data.stableClears>=3)t.push('ブレない職人');if(data.recoveries>=3)t.push('逆転王');if(data.flyings===0&&data.plays>=5)t.push('無事故運転クマ');if(recent.length>=5&&recent.filter(x=>x.avg<350).length>=5)t.push('高速巡航マスター');if(h.filter(x=>x.spread<=50).length>=5)t.push('精密時計');if(data.bestUpdates>=5)t.push('限界突破者');if(data.shareCount>=3)t.push('KUMAGORO広報大使');return t}
 function renderTitles(){const ts=getTitles();$('titles').innerHTML=ts.map(x=>`<span class="title-chip">${x}</span>`).join('');$('titleHint').style.display=ts.length?'none':'block'}
 async function shareResult(){if(!latestResult)return;try{const target=$('captureArea');const canvas=await html2canvas(target,{backgroundColor:'#fff9ef',scale:2,useCORS:true,logging:false});const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));if(navigator.clipboard&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);toast('結果画像をクリップボードへコピーしました')}else downloadBlob(blob);data.shareCount++;const newly=checkBadges(latestResult);save();if(newly.includes('share')){sounds.badge();toast('実績解除：シェア名人')}}catch(e){toast('画像コピーに失敗しました。ダウンロードを試します');try{const canvas=await html2canvas($('captureArea'),{backgroundColor:'#fff9ef'});canvas.toBlob(downloadBlob)}catch{}}}
 function downloadBlob(blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`KUMAGORO-${latestResult?.avg||'result'}ms.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('結果画像をダウンロードしました')}

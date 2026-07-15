@@ -809,6 +809,39 @@ button{font:inherit} img{display:block;max-width:100%}
   }
 }
 
+
+/* ===== v8: restart gate / explicit start button ===== */
+.restart-gate{
+  display:none;
+  width:min(320px,92%);
+  margin-top:14px;
+}
+.restart-gate.show{
+  display:block;
+  animation:resultFuseIn .3s ease-out both;
+}
+.restart-gate .btn{
+  min-height:54px;
+  font-size:18px;
+}
+.restart-gate p{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  text-align:center;
+}
+@media(max-width:620px){
+  .restart-gate{
+    width:100%;
+    margin-top:10px;
+  }
+  .restart-gate .btn{
+    min-height:50px;
+    font-size:16px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -864,6 +897,10 @@ button{font:inherit} img{display:block;max-width:100%}
           <div class="state-bear" id="stateBear"><img id="stateBearImg" alt="KUMAGORO"></div>
           <p class="main-copy" id="mainCopy">タップしてスタート</p>
           <p class="sub-copy" id="subCopy">緑になった瞬間にタップ。3回の平均を測ります。</p>
+          <div class="restart-gate" id="restartGate">
+            <button class="btn primary" id="restartStartBtn"><img id="restartReplayIcon">スタート</button>
+            <p>準備ができたらスタートを押してください。</p>
+          </div>
         </div>
         <div class="rounds" id="rounds"></div>
 
@@ -1145,7 +1182,7 @@ function load(){try{return {...base,...JSON.parse(localStorage.getItem(STORE)||'
 function save(){localStorage.setItem(STORE,JSON.stringify(data));updateTop();renderBadges();renderTitles();updateMasteryUI();syncSound()}
 function setImg(id,key){$(id).src=ASSETS[key]}
 function setStaticAssets(){
- setImg('logoImg','logo_primary');setImg('bondBear','bear_waving');setImg('statCrown','icon_crown');setImg('statGamepad','icon_gamepad');setImg('statStar','icon_progress_star');setImg('soundIcon','icon_sound');setImg('settingsIcon','icon_settings');setImg('wavingBear','bear_waving');setImg('miniBear','bear_face');setImg('resultFace','bear_face');setImg('rCrown','icon_crown');setImg('rGamepad','icon_gamepad');setImg('rStar','icon_progress_star');setImg('replayIcon','icon_replay');setImg('copyIcon','icon_copy');setImg('footerBear','bear_face');setImg('footerHeart','icon_heart');setImg('statesRef','panel_states_reference');
+ setImg('logoImg','logo_primary');setImg('bondBear','bear_waving');setImg('statCrown','icon_crown');setImg('statGamepad','icon_gamepad');setImg('statStar','icon_progress_star');setImg('soundIcon','icon_sound');setImg('settingsIcon','icon_settings');setImg('wavingBear','bear_waving');setImg('miniBear','bear_face');setImg('resultFace','bear_face');setImg('rCrown','icon_crown');setImg('rGamepad','icon_gamepad');setImg('rStar','icon_progress_star');setImg('replayIcon','icon_replay');setImg('restartReplayIcon','icon_replay');setImg('copyIcon','icon_copy');setImg('footerBear','bear_face');setImg('footerHeart','icon_heart');setImg('statesRef','panel_states_reference');
  // Proves and preserves all 44 embedded assets inside the document.
  $('assetProof').innerHTML=Object.keys(ASSETS).map(k=>`<img src="${ASSETS[k]}" alt="${k}">`).join('');
 }
@@ -1220,7 +1257,30 @@ function stopBgm(){
 
 function tone(freq,dur=.12,type='sine',vol=.07,delay=0){if(!data.sound)return;primeAudio();if(!audio)return;const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,audio.currentTime+delay);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+delay+dur);o.connect(g).connect(audio.destination);o.start(audio.currentTime+delay);o.stop(audio.currentTime+delay+dur)}
 const sounds={ready:()=>{tone(660,.09);tone(880,.12,'sine',.05,.04)},fly:()=>{tone(180,.15,'sawtooth',.06);tone(120,.18,'square',.03,.08)},result:()=>{tone(440,.15);tone(554,.15,'sine',.05,.08);tone(659,.24,'sine',.05,.16)},badge:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.34,'sine',.045,i*.06)),fanfare:()=>[392,523,659,784,1047].forEach((f,i)=>tone(f,.6,'triangle',.05,i*.08))};
-function startGame(){primeAudio();clearTimeout(waitTimer);stopBgm();const rare=maybeRareEncounter();round=0;times=[];hadFlying=false;latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');startRound();setTimeout(startBgm,80);if(rare)setTimeout(()=>showRareCelebration(rare),380)}
+
+function showRestartReady(){
+  clearTimeout(waitTimer);
+  stopBgm();
+  state='restartReady';
+  round=0;
+  times=[];
+  hadFlying=false;
+  latestResult=null;
+  $('resultCard').classList.remove('show');
+  $('mainActions').classList.remove('show');
+  setClass('idle');
+  setBear('idle');
+  $('mainCopy').textContent='もう一度いこう！';
+  $('subCopy').textContent='準備ができたら下のスタートボタンを押してください。';
+  $('restartGate').classList.add('show');
+  renderRounds();
+}
+function beginFromRestartGate(){
+  $('restartGate').classList.remove('show');
+  startGame();
+}
+
+function startGame(){primeAudio();clearTimeout(waitTimer);stopBgm();$('restartGate').classList.remove('show');const rare=maybeRareEncounter();round=0;times=[];hadFlying=false;latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');startRound();setTimeout(startBgm,80);if(rare)setTimeout(()=>showRareCelebration(rare),380)}
 function startRound(){state='waiting';setClass('waiting');setBear('waiting');$('mainCopy').textContent='待機中…';$('subCopy').textContent='まだ押さないで。緑になった瞬間にタップ！';renderRounds();const delay=1000+Math.random()*2000;waitTimer=setTimeout(()=>{state='ready';readyAt=performance.now();setClass('ready');setBear('ready');$('mainCopy').textContent='GO!';$('subCopy').textContent='今すぐタップ！';sounds.ready()},delay)}
 function flying(){clearTimeout(waitTimer);data.flyings++;hadFlying=true;state='flying';setClass('flying');setBear('flying');$('mainCopy').textContent='フライング！';$('subCopy').textContent='大丈夫。その場で同じラウンドをやり直します。';sounds.fly();save();setTimeout(startRound,1050)}
 function record(){const t=Math.max(1,Math.round(performance.now()-readyAt));times.push(t);round++;if(round<3){state='between';setClass('idle');setBear('between');$('mainCopy').innerHTML=`${t}<span class="ms">ms</span>`;$('subCopy').textContent='ナイス！ タップして次のラウンドへ。';renderRounds()}else finish()}
@@ -1289,14 +1349,15 @@ function showTitleCelebrations(titles){
 
 function toast(msg,ms=2200){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(()=>t.classList.remove('show'),ms)}
 function confetti(){const c=$('confetti'),palette=['#f1685d','#f3a13b','#8eb36d','#76649b','#c4a78f'];c.innerHTML='';for(let i=0;i<120;i++){const el=document.createElement('i');el.style.left=Math.random()*100+'vw';el.style.background=palette[i%palette.length];el.style.setProperty('--x',(Math.random()*260-130)+'px');el.style.animationDelay=(Math.random()*.75)+'s';el.style.animationDuration=(2+Math.random()*1.8)+'s';c.appendChild(el)}setTimeout(()=>c.innerHTML='',4400)}
-function clickHandler(){primeAudio();if(state==='idle')startGame();else if(state==='waiting')flying();else if(state==='ready')record();else if(state==='between')startRound()}
+function clickHandler(){primeAudio();if(state==='idle')startGame();else if(state==='restartReady')return;else if(state==='waiting')flying();else if(state==='ready')record();else if(state==='between')startRound()}
 function syncSound(){const on=data.sound;$('soundBtn').classList.toggle('muted',!on);$('soundSwitch').classList.toggle('on',on);if($('bgmIndicator'))$('bgmIndicator').textContent=on?'♪ BGM ON':'♪ BGM OFF'}
 function openModal(id){$(id).classList.add('show')}
 function closeModal(id){$(id).classList.remove('show')}
+$('restartStartBtn').onclick=beginFromRestartGate;
 $('reactionBox').addEventListener('click',clickHandler);$('reactionBox').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();clickHandler()}});
-$('againBtn').onclick=startGame;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
+$('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
-$('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
+$('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');$('restartGate').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
 function init(){setStaticAssets();setBear('idle');updateTop();renderBadges();renderTitles();renderRounds();updateMasteryUI();syncSound()}
 init();
 })();

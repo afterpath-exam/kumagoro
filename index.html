@@ -985,6 +985,109 @@ button{font:inherit} img{display:block;max-width:100%}
   }
 }
 
+
+.rare-mini-button{width:100%;appearance:none;cursor:pointer;font-family:inherit}
+.rare-mini-button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(111,90,146,.14)}
+.rare-gallery-modal-card{width:min(860px,96vw);max-height:min(88vh,900px);overflow:auto}
+.rare-gallery-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.rare-gallery-heading .eyebrow{font-size:9px;font-weight:1000;letter-spacing:.15em;color:#8a6aa5}
+.rare-gallery-heading h2{margin:3px 0 0}
+.rare-gallery-count{padding:8px 12px;border-radius:999px;background:#f1ebfb;color:#6f5a92;font-weight:1000}
+.rare-gallery-note{margin:8px 0 16px;color:var(--muted);font-size:13px;line-height:1.55}
+.rare-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rare-gallery-item{border:1px solid var(--line);border-radius:22px;padding:13px;background:linear-gradient(180deg,#fffdf9,#fff6ec);text-align:center;cursor:pointer;transition:.2s ease}
+.rare-gallery-item:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(72,56,94,.13)}
+.rare-thumb-stage{height:150px;display:grid;place-items:center;position:relative;border-radius:17px;overflow:hidden;background:radial-gradient(circle at 50% 45%,rgba(255,248,191,.78),rgba(244,237,255,.72) 48%,rgba(255,255,255,.4) 75%)}
+.rare-gallery-item img{width:130px;height:130px;object-fit:contain}
+.rare-gallery-item strong{display:block;margin-top:10px;font-size:13px}
+.rare-gallery-item small{display:block;margin-top:4px;color:var(--muted);font-size:10px;line-height:1.35}
+.rare-gallery-item.locked{cursor:default;opacity:.5;filter:grayscale(1)}
+.rare-gallery-item.locked:hover{transform:none;box-shadow:none}
+.rare-gallery-item.locked img{filter:brightness(0) opacity(.25)!important}
+.rare-preview-modal-card{width:min(560px,94vw);text-align:center;overflow:hidden}
+.rare-preview-stage{width:min(390px,80vw);aspect-ratio:1;margin:4px auto 8px;display:grid;place-items:center;position:relative}
+.rare-preview-glow{position:absolute;inset:3%;border-radius:50%;background:radial-gradient(circle,rgba(255,244,157,.88),rgba(222,206,255,.45) 48%,rgba(255,255,255,0) 72%);animation:titlePulse 1.7s ease-in-out infinite}
+.rare-preview-stage img{position:relative;z-index:2;width:88%;height:88%;object-fit:contain}
+.rare-preview-kicker{font-size:10px;font-weight:1000;letter-spacing:.18em;color:#8b6aa7}
+.rare-preview-modal-card h2{margin:4px 0 6px;font-size:clamp(25px,7vw,38px)}
+.rare-preview-modal-card p{max-width:420px;margin:0 auto 8px;color:var(--muted);font-weight:800;line-height:1.6}
+@media(max-width:620px){
+  .mastery-card,.achievements-card{width:calc(100% + 24px)!important;max-width:none!important;margin-left:-12px!important;margin-right:-12px!important;border-radius:20px}
+  .rare-gallery-modal-card,.rare-preview-modal-card{width:100%;border-radius:28px 28px 0 0}
+  .rare-gallery-modal-card{max-height:92dvh}
+  .rare-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .rare-gallery-item{padding:9px;border-radius:18px}
+  .rare-thumb-stage{height:126px}
+  .rare-gallery-item img{width:108px;height:108px}
+  .rare-preview-stage{width:min(360px,88vw)}
+}
+@media(max-width:390px){
+  .mastery-card,.achievements-card{width:calc(100% + 20px)!important;margin-left:-10px!important;margin-right:-10px!important}
+}
+
+
+/* ===== v16: KUMAGORO gacha system ===== */
+.gacha-status-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.gacha-ticket-button,.rare-mini-button{
+  min-height:39px;border-radius:999px;border:1px solid var(--line);
+  font-family:inherit;font-weight:1000;cursor:pointer;
+}
+.gacha-ticket-button{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:linear-gradient(180deg,#fff6cf,#ffe6a1);color:#74541e;border-color:#e9c66e;
+}
+.gacha-ticket-button strong{padding:2px 7px;border-radius:999px;background:#fff9e8}
+.honey-status{margin-top:7px;text-align:center;font-size:10px;font-weight:900;color:#9a702d}
+.gacha-modal-card{width:min(620px,96vw);max-height:92vh;overflow:auto}
+.gacha-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.gacha-head .eyebrow{font-size:9px;font-weight:1000;letter-spacing:.15em;color:#b27b2f}
+.gacha-head h2{margin:3px 0 0}
+.gacha-ticket-badge{padding:8px 11px;border-radius:999px;background:#fff1b8;color:#76531d;font-weight:1000}
+.gacha-machine{height:225px;margin:15px 0 12px;border-radius:28px;position:relative;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#ffedbd,#ffd9da 48%,#e4ddff)}
+.gacha-machine-glow{position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.55) 40%,transparent 70%);animation:titlePulse 1.5s ease-in-out infinite}
+.gacha-machine img{position:relative;z-index:2;width:175px;height:175px;object-fit:contain}
+.gacha-capsules{position:absolute;inset:0;z-index:3;pointer-events:none}
+.gacha-capsules i{position:absolute;width:25px;height:25px;border-radius:50%;background:linear-gradient(#fff 48%,#f07d6e 49%);box-shadow:0 4px 10px rgba(70,50,40,.15);animation:gachaFloat 2.6s ease-in-out infinite}
+.gacha-capsules i:nth-child(1){left:8%;top:20%}.gacha-capsules i:nth-child(2){right:9%;top:14%;animation-delay:.4s}.gacha-capsules i:nth-child(3){left:16%;bottom:13%;animation-delay:.8s}.gacha-capsules i:nth-child(4){right:17%;bottom:17%;animation-delay:1.1s}.gacha-capsules i:nth-child(5){right:5%;top:52%;animation-delay:1.5s}
+@keyframes gachaFloat{50%{transform:translateY(-9px) rotate(12deg)}}
+.gacha-pull-button{font-size:17px;min-height:54px}
+.gacha-pull-button:disabled{opacity:.45;cursor:not-allowed}
+.gacha-no-ticket{text-align:center;color:var(--muted);font-size:11px;font-weight:800;margin:8px 0}
+.gacha-rate-box{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;padding:10px;border-radius:15px;background:#f8f3ff;font-size:11px}
+.gacha-rate-box span{padding:4px 8px;border-radius:999px;background:#fff;font-weight:1000}
+.gacha-how{margin-top:12px;padding:13px;border-radius:18px;background:#fff9ef;border:1px solid #eedec6}
+.gacha-how h3{margin:0 0 8px;font-size:13px}.gacha-how div{font-size:11px;font-weight:800;margin:5px 0;color:#6d6159}
+.gacha-reveal-overlay{z-index:290}
+.gacha-reveal-card{width:min(510px,94vw);padding:22px 18px;text-align:center;border-radius:34px;background:linear-gradient(180deg,#fffdf7,#fff0d1);position:relative;overflow:hidden;box-shadow:0 30px 90px rgba(31,39,54,.4);animation:titleCardPop .7s cubic-bezier(.2,1.5,.34,1) both}
+.gacha-reveal-rays{position:absolute;inset:-45%;background:repeating-conic-gradient(rgba(255,220,93,.23) 0 10deg,transparent 10deg 22deg);animation:titleRaySpin 12s linear infinite}
+.gacha-rarity{position:relative;z-index:2;display:inline-block;padding:5px 18px;border-radius:999px;font-size:18px;font-weight:1000;letter-spacing:.12em;background:#fff;color:#8c6a2a;box-shadow:0 5px 18px rgba(80,60,30,.12)}
+.gacha-rarity.sr{background:linear-gradient(135deg,#f2d6ff,#c6b4ff);color:#563d92}
+.gacha-rarity.ssr{background:linear-gradient(90deg,#ffb9dc,#ffe781,#b9f1ff,#d5c4ff);color:#5b4173;animation:rareRainbow 2s linear infinite}
+.gacha-reveal-stage{position:relative;z-index:2;width:245px;height:245px;margin:3px auto;display:grid;place-items:center}
+.gacha-reveal-stage img{width:230px;height:230px;object-fit:contain}
+.gacha-new-label{position:relative;z-index:2;display:inline-block;padding:4px 13px;border-radius:999px;background:#f35f57;color:#fff;font-weight:1000;font-size:12px}
+.gacha-reveal-card h2,.gacha-reveal-card p,.gacha-duplicate-message,.gacha-reveal-card button{position:relative;z-index:2}
+.gacha-reveal-card h2{margin:7px 0 5px;font-size:clamp(25px,7vw,39px)}
+.gacha-reveal-card p{margin:0 auto 9px;max-width:390px;color:#6a6059;font-weight:800;line-height:1.55}
+.gacha-duplicate-message{min-height:20px;margin:5px 0 10px;color:#9a6d24;font-size:12px;font-weight:1000}
+.rare-rarity-tag{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:999px;background:#eee7fa;color:#705a91;font-size:9px;font-weight:1000}
+
+/* Additional collection color variants */
+.rare-mint{filter:hue-rotate(72deg) saturate(1.22) brightness(1.15) drop-shadow(0 0 18px rgba(92,213,177,.5))!important}
+.rare-sunset{filter:hue-rotate(328deg) saturate(1.7) brightness(1.15) drop-shadow(0 0 18px rgba(255,145,85,.5))!important}
+.rare-choco{filter:sepia(.8) saturate(1.45) brightness(.78) contrast(1.05) drop-shadow(0 0 16px rgba(123,76,47,.4))!important}
+.rare-ice{filter:hue-rotate(145deg) saturate(.95) brightness(1.23) drop-shadow(0 0 20px rgba(120,211,255,.55))!important}
+.rare-sakura{filter:hue-rotate(310deg) saturate(1.3) brightness(1.18) drop-shadow(0 0 19px rgba(255,160,205,.55))!important}
+.rare-galaxy{animation:rareGalaxy 2.8s ease-in-out infinite!important;filter:hue-rotate(195deg) saturate(2) brightness(.82) contrast(1.2) drop-shadow(0 0 25px rgba(138,92,255,.75))!important}
+@keyframes rareGalaxy{50%{filter:hue-rotate(270deg) saturate(2.2) brightness(1) contrast(1.25) drop-shadow(0 0 30px rgba(255,104,221,.8))}}
+
+@media(max-width:620px){
+ .gacha-status-row{grid-template-columns:1fr 1fr}
+ .gacha-modal-card{width:100%;border-radius:28px 28px 0 0;max-height:93dvh}
+ .gacha-machine{height:195px}.gacha-machine img{width:150px;height:150px}
+ .gacha-reveal-stage{width:210px;height:210px}.gacha-reveal-stage img{width:200px;height:200px}
+}
+
 </style>
 </head>
 <body>
@@ -1034,7 +1137,14 @@ button{font:inherit} img{display:block;max-width:100%}
         <div class="bond-progress"><i id="bondProgressFill"></i></div>
         <div class="bond-next" id="bondNextText">まずは1回プレイしよう</div>
         <div class="combo-pill" id="comboPill">🔥 COMBO 0</div>
-        <div class="rare-mini" id="rareMini">✨ レアKUMAGORO図鑑 0 / 6</div>
+        <div class="gacha-status-row">
+          <button class="gacha-ticket-button" id="gachaButton" type="button">
+            <span>🎟️ ガチャ</span>
+            <strong id="gachaTicketCount">0枚</strong>
+          </button>
+          <button class="rare-mini rare-mini-button" id="rareMini" type="button">✨ 図鑑 0 / 12</button>
+        </div>
+        <div class="honey-status" id="honeyStatus">🍯 はちみつポイント 0 / 5</div>
       </section>
 
       <section class="card title-strip">
@@ -1090,6 +1200,74 @@ button{font:inherit} img{display:block;max-width:100%}
   <div class="footer"><img id="footerBear">Fast, fun, and bear-y addictive! <img class="heart" id="footerHeart"></div>
 </div>
 
+
+
+
+<div class="modal" id="gachaModal">
+  <div class="modal-card gacha-modal-card">
+    <button class="modal-close" data-close="gachaModal">×</button>
+    <div class="gacha-head">
+      <div>
+        <div class="eyebrow">KUMAGORO CAPSULE</div>
+        <h2>🎁 レアKUMAGOROガチャ</h2>
+      </div>
+      <div class="gacha-ticket-badge">🎟️ <span id="gachaModalTickets">0</span>枚</div>
+    </div>
+    <div class="gacha-machine">
+      <div class="gacha-machine-glow"></div>
+      <img id="gachaMachineBear" alt="KUMAGORO">
+      <div class="gacha-capsules"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <button class="btn primary gacha-pull-button" id="gachaPullBtn">🎟️ 1枚でガチャを引く</button>
+    <p class="gacha-no-ticket" id="gachaNoTicket">チケットを獲得してガチャを引こう！</p>
+    <div class="gacha-rate-box">
+      <b>提供割合</b>
+      <span>R 72%</span><span>SR 23%</span><span>SSR 5%</span>
+    </div>
+    <div class="gacha-how">
+      <h3>ガチャチケットの獲得方法</h3>
+      <div>🐾 3回プレイするごとに1枚</div>
+      <div>⚡ 自己ベスト更新で1枚</div>
+      <div>📅 1日1回のプレイボーナスで1枚</div>
+      <div>🍯 重複5回分のポイントで1枚</div>
+    </div>
+  </div>
+</div>
+
+<div class="mastery-overlay gacha-reveal-overlay" id="gachaReveal" aria-hidden="true">
+  <div class="gacha-reveal-card">
+    <div class="gacha-reveal-rays"></div>
+    <div class="gacha-rarity" id="gachaRevealRarity">R</div>
+    <div class="gacha-reveal-stage"><img id="gachaRevealBear" alt="レアKUMAGORO"></div>
+    <div class="gacha-new-label" id="gachaNewLabel">NEW!</div>
+    <h2 id="gachaRevealTitle">レアKUMAGORO</h2>
+    <p id="gachaRevealText"></p>
+    <div class="gacha-duplicate-message" id="gachaDuplicateMessage"></div>
+    <button class="title-continue" id="gachaRevealBtn">図鑑に迎える</button>
+  </div>
+</div>
+
+<div class="modal" id="rareGalleryModal">
+  <div class="modal-card rare-gallery-modal-card">
+    <button class="modal-close" data-close="rareGalleryModal">×</button>
+    <div class="rare-gallery-heading">
+      <div><div class="eyebrow">RARE KUMAGORO COLLECTION</div><h2>✨ レアKUMAGORO図鑑</h2></div>
+      <div class="rare-gallery-count" id="rareGalleryCount">0 / 12</div>
+    </div>
+    <p class="rare-gallery-note">ガチャで獲得したKUMAGOROをタップすると、大きく表示してゆっくり眺められます。</p>
+    <div class="rare-gallery-grid" id="rareGalleryGrid"></div>
+  </div>
+</div>
+
+<div class="modal" id="rarePreviewModal">
+  <div class="modal-card rare-preview-modal-card">
+    <button class="modal-close" data-close="rarePreviewModal">×</button>
+    <div class="rare-preview-stage"><div class="rare-preview-glow"></div><img id="rarePreviewBear" alt="レアKUMAGORO"></div>
+    <div class="rare-preview-kicker">RARE KUMAGORO</div>
+    <h2 id="rarePreviewTitle">レアKUMAGORO</h2>
+    <p id="rarePreviewText"></p>
+  </div>
+</div>
 
 <div class="modal" id="titleSelectModal">
   <div class="modal-card title-select-modal-card">
@@ -1167,7 +1345,7 @@ const ASSETS={"badge_blazing":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPA
 'use strict';
 const $=id=>document.getElementById(id);
 const STORE='kumagoro_complete_v3';
-const base={plays:0,best:null,bestUpdates:0,flyings:0,recoveries:0,stableClears:0,shareCount:0,badges:{},history:[],allComplete:false,sound:true,bondLevel:0,bondMilestones:[],comboBest:0,rareSeen:{},lastRare:null,selectedTitle:null,rareMissStreak:0};
+const base={plays:0,best:null,bestUpdates:0,flyings:0,recoveries:0,stableClears:0,shareCount:0,badges:{},history:[],allComplete:false,sound:true,bondLevel:0,bondMilestones:[],comboBest:0,rareSeen:{},lastRare:null,selectedTitle:null,rareMissStreak:0,gachaTickets:0,honeyPoints:0,gachaPulls:0,ticketPlayMilestone:0,gachaStarterGranted:false,lastDailyTicketDate:null};
 let data=load(),state='idle',round=0,times=[],waitTimer=null,readyAt=0,hadFlying=false,latestResult=null,audio=null,bgmTimer=null,bgmStep=0,bgmGain=null;
 
 
@@ -1181,12 +1359,18 @@ const BOND_MILESTONES=[
   {plays:100,level:7,name:'伝説',text:'100回到達。あなたとKUMAGOROの物語は伝説級です！'}
 ];
 const RARES=[
-  {id:'gold',name:'ゴールデンKUMAGORO',cls:'rare-gold',text:'幸運の金色KUMAGORO！出会える確率はごくわずか。'},
-  {id:'panda',name:'パンダKUMAGORO',cls:'rare-panda',text:'白黒なのに存在感はカラフル。レアな変身姿です。'},
-  {id:'night',name:'夜空KUMAGORO',cls:'rare-night',text:'夜空をまとった幻想的なKUMAGORO。'},
-  {id:'rainbow',name:'レインボーKUMAGORO',cls:'rare-rainbow',text:'色が踊る超レアKUMAGORO！'},
-  {id:'ninja',name:'忍者KUMAGORO',cls:'rare-ninja',text:'気配を消して現れる俊敏なKUMAGORO。'},
-  {id:'royal',name:'王様KUMAGORO',cls:'rare-royal',text:'気品たっぷり。KUMAGORO王国の特別な姿です。'}
+  {id:'panda',name:'パンダKUMAGORO',cls:'rare-panda',rarity:'R',text:'白黒なのに存在感はカラフル。のんびり屋のレアKUMAGORO。'},
+  {id:'mint',name:'ミントKUMAGORO',cls:'rare-mint',rarity:'R',text:'爽やかなミントカラー。集中したい日にそっと応援してくれます。'},
+  {id:'sunset',name:'夕焼けKUMAGORO',cls:'rare-sunset',rarity:'R',text:'夕焼け色に染まった、あたたかい雰囲気のKUMAGORO。'},
+  {id:'choco',name:'ショコラKUMAGORO',cls:'rare-choco',rarity:'R',text:'甘いショコラカラー。見ているだけで少し元気が出ます。'},
+  {id:'ice',name:'アイスKUMAGORO',cls:'rare-ice',rarity:'R',text:'ひんやりクールな姿。熱くなりすぎた勝負を落ち着かせます。'},
+  {id:'gold',name:'ゴールデンKUMAGORO',cls:'rare-gold',rarity:'SR',text:'幸運を運ぶ金色のKUMAGORO。キラキラした特別な存在です。'},
+  {id:'night',name:'夜空KUMAGORO',cls:'rare-night',rarity:'SR',text:'星空をまとった幻想的なKUMAGORO。静かな集中力の象徴です。'},
+  {id:'ninja',name:'忍者KUMAGORO',cls:'rare-ninja',rarity:'SR',text:'気配を消して現れる俊敏なKUMAGORO。反応速度も達人級。'},
+  {id:'royal',name:'王様KUMAGORO',cls:'rare-royal',rarity:'SR',text:'気品たっぷり。KUMAGORO王国の特別な姿です。'},
+  {id:'sakura',name:'さくらKUMAGORO',cls:'rare-sakura',rarity:'SR',text:'桜色のやさしいKUMAGORO。新しい挑戦を祝福します。'},
+  {id:'rainbow',name:'レインボーKUMAGORO',cls:'rare-rainbow',rarity:'SSR',text:'色が踊る超レアKUMAGORO。見つけたあなたはかなり幸運！'},
+  {id:'galaxy',name:'ギャラクシーKUMAGORO',cls:'rare-galaxy',rarity:'SSR',text:'宇宙の輝きをまとった最高レア。KUMAGORO図鑑の頂点です。'}
 ];
 function currentBond(){
   let current={plays:0,level:0,name:'これから'};
@@ -1214,7 +1398,7 @@ function updateMasteryUI(){
   const combo=calcCombo();
   $('comboPill').textContent=combo.label;
   $('comboPill').classList.toggle('hot',combo.count>=2);
-  $('rareMini').textContent=`✨ レアKUMAGORO図鑑 ${Object.keys(data.rareSeen||{}).length} / ${RARES.length}`;
+  $('rareMini').textContent=`✨ 図鑑 ${Object.keys(data.rareSeen||{}).length} / ${RARES.length}`;updateGachaUI();
 }
 function calcCombo(){
   const h=data.history||[];
@@ -1273,43 +1457,138 @@ function applyRareClass(img,rare){
   img.classList.remove(...RARES.map(r=>r.cls));
   if(rare)img.classList.add(rare.cls);
 }
-function maybeRareEncounter(){
-  /*
-    Balanced rare encounter system:
-    - Base chance: 5% per new game (about 1 in 20)
-    - After 12 consecutive non-rare games, chance rises gently by +1.5 percentage points per miss
-    - Guaranteed encounter at 25 consecutive misses
-    - First two plays are protected from rare encounters
-  */
-  if(data.plays<2){
-    data.lastRare=null;
-    return null;
+function todayKey(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function migrateGachaData(){
+  data.gachaTickets=Number(data.gachaTickets||0);
+  data.honeyPoints=Number(data.honeyPoints||0);
+  data.gachaPulls=Number(data.gachaPulls||0);
+  data.ticketPlayMilestone=Number(data.ticketPlayMilestone||0);
+
+  // Existing players receive one starter ticket once.
+  if(data.plays>0&&!data.gachaStarterGranted){
+    data.gachaTickets++;
+    data.gachaStarterGranted=true;
   }
 
-  data.rareMissStreak=data.rareMissStreak||0;
-
-  let chance=.05;
-  if(data.rareMissStreak>=12){
-    chance+=Math.min(.20,(data.rareMissStreak-11)*.015);
+  // One daily ticket, granted after the player has completed at least one game.
+  const today=todayKey();
+  if(data.plays>0&&data.lastDailyTicketDate!==today){
+    data.gachaTickets++;
+    data.lastDailyTicketDate=today;
+    setTimeout(()=>toast('📅 デイリーボーナス：ガチャチケットを1枚獲得！',2800),700);
   }
 
-  const guaranteed=data.rareMissStreak>=25;
-  const hit=guaranteed||Math.random()<chance;
+  const earnedMilestones=Math.floor(data.plays/3);
+  if(data.ticketPlayMilestone<earnedMilestones){
+    const diff=earnedMilestones-data.ticketPlayMilestone;
+    data.gachaTickets+=diff;
+    data.ticketPlayMilestone=earnedMilestones;
+  }
+}
+function updateGachaUI(){
+  const tickets=Number(data.gachaTickets||0);
+  const honey=Number(data.honeyPoints||0);
+  if($('gachaTicketCount'))$('gachaTicketCount').textContent=`${tickets}枚`;
+  if($('gachaModalTickets'))$('gachaModalTickets').textContent=tickets;
+  if($('honeyStatus'))$('honeyStatus').textContent=`🍯 はちみつポイント ${honey} / 5`;
+  if($('gachaPullBtn'))$('gachaPullBtn').disabled=tickets<1;
+  if($('gachaNoTicket'))$('gachaNoTicket').textContent=tickets>0?'チケットを使ってKUMAGOROを迎えよう！':'チケットを獲得してガチャを引こう！';
+}
+function awardPlayTickets(previousPlays,newBest){
+  const before=Math.floor(previousPlays/3),after=Math.floor(data.plays/3);
+  let earned=0;
+  if(after>before){
+    const diff=after-before;
+    data.gachaTickets+=diff;
+    data.ticketPlayMilestone=after;
+    earned+=diff;
+  }
+  if(newBest&&previousPlays>0){
+    data.gachaTickets++;
+    earned++;
+  }
+  if(earned){
+    setTimeout(()=>toast(`🎟️ ガチャチケットを${earned}枚獲得！`,2800),850);
+  }
+}
+function pickGachaRarity(){
+  const r=Math.random();
+  return r<.05?'SSR':r<.28?'SR':'R';
+}
+function chooseRareByRarity(rarity){
+  const candidates=RARES.filter(r=>r.rarity===rarity);
+  // Unseen characters have 3x weight, while duplicates remain possible.
+  const weighted=[];
+  candidates.forEach(r=>{
+    const weight=data.rareSeen?.[r.id]?1:3;
+    for(let i=0;i<weight;i++)weighted.push(r);
+  });
+  return weighted[Math.floor(Math.random()*weighted.length)];
+}
+function openGacha(){
+  updateGachaUI();
+  $('gachaMachineBear').src=ASSETS.bear_waving;
+  openModal('gachaModal');
+}
+function pullGacha(){
+  if((data.gachaTickets||0)<1){
+    toast('ガチャチケットがありません');
+    return;
+  }
+  primeAudio();
+  data.gachaTickets--;
+  data.gachaPulls=(data.gachaPulls||0)+1;
+  const rarity=pickGachaRarity();
+  const rare=chooseRareByRarity(rarity);
+  const isNew=!data.rareSeen?.[rare.id];
 
-  if(!hit){
-    data.rareMissStreak++;
-    data.lastRare=null;
-    save();
-    return null;
+  if(isNew){
+    data.rareSeen=data.rareSeen||{};
+    data.rareSeen[rare.id]=true;
+  }else{
+    data.honeyPoints=(data.honeyPoints||0)+1;
+    if(data.honeyPoints>=5){
+      data.honeyPoints-=5;
+      data.gachaTickets++;
+    }
   }
 
-  data.rareMissStreak=0;
-  const unseen=RARES.filter(r=>!data.rareSeen?.[r.id]);
-  const pool=unseen.length?unseen:RARES;
-  const rare=pool[Math.floor(Math.random()*pool.length)];
-  data.lastRare=rare.id;
   save();
-  return rare;
+  closeModal('gachaModal');
+
+  $('gachaRevealBear').src=ASSETS.bear_victory;
+  applyRareClass($('gachaRevealBear'),rare);
+  $('gachaRevealRarity').textContent=rarity;
+  $('gachaRevealRarity').className='gacha-rarity '+rarity.toLowerCase();
+  $('gachaNewLabel').textContent=isNew?'NEW!':'DUPLICATE';
+  $('gachaNewLabel').style.background=isNew?'#f35f57':'#a98757';
+  $('gachaRevealTitle').textContent=rare.name;
+  $('gachaRevealText').textContent=rare.text;
+  $('gachaDuplicateMessage').textContent=isNew
+    ?'新しいKUMAGOROが図鑑に登録されました！'
+    :(data.honeyPoints===0?'重複ボーナスでチケットを1枚獲得！':`重複ボーナス：はちみつポイント +1（${data.honeyPoints}/5）`);
+  $('gachaRevealBtn').textContent=isNew?'図鑑に迎える':'もう一度確認する';
+  $('gachaReveal').classList.add('show');
+  $('gachaReveal').setAttribute('aria-hidden','false');
+  sounds.fanfare();
+  if(rarity==='SSR'||isNew)confetti();
+
+  $('gachaRevealBtn').onclick=()=>{
+    $('gachaReveal').classList.remove('show');
+    $('gachaReveal').setAttribute('aria-hidden','true');
+    applyRareClass($('gachaRevealBear'),null);
+    updateGachaUI();
+    renderRareGallery();
+    toast(isNew?`${rare.name}を図鑑に登録しました！`:'はちみつポイントを獲得しました');
+  };
+}
+function maybeRareEncounter(){
+  // Rare KUMAGORO no longer appears suddenly. All collection characters come from gacha.
+  data.lastRare=null;
+  return null;
 }
 function showRareCelebration(rare){
   if(!rare)return;
@@ -1329,6 +1608,7 @@ function showRareCelebration(rare){
     applyRareClass($('rareCelebrationBear'),null);
     save();
     updateMasteryUI();
+    renderRareGallery();
     toast(`${rare.name}を図鑑に登録しました！`);
   };
 }
@@ -1371,16 +1651,16 @@ const comments={
  slow:['のんびりクマモード。でも伸びしろは大きい！','今日は慎重派。次の一手に期待。','焦らず再挑戦。記録更新はここからです。']
 };
 function load(){try{return {...base,...JSON.parse(localStorage.getItem(STORE)||'{}')}}catch{return {...base}}}
-function save(){localStorage.setItem(STORE,JSON.stringify(data));updateTop();renderBadges();renderTitles();renderSelectedTitle();updateMasteryUI();syncSound()}
+function save(){localStorage.setItem(STORE,JSON.stringify(data));updateTop();renderBadges();renderTitles();renderSelectedTitle();updateMasteryUI();updateGachaUI();syncSound()}
 function setImg(id,key){$(id).src=ASSETS[key]}
 function setStaticAssets(){
- setImg('logoImg','logo_primary');setImg('bondBear','bear_waving');setImg('statCrown','icon_crown');setImg('statGamepad','icon_gamepad');setImg('statStar','icon_progress_star');setImg('soundIcon','icon_sound');setImg('settingsIcon','icon_settings');setImg('wavingBear','bear_waving');setImg('miniBear','bear_face');setImg('resultFace','bear_face');setImg('rCrown','icon_crown');setImg('rGamepad','icon_gamepad');setImg('rStar','icon_progress_star');setImg('replayIcon','icon_replay');setImg('restartReplayIcon','icon_replay');setImg('copyIcon','icon_copy');setImg('footerBear','bear_face');setImg('footerHeart','icon_heart');setImg('statesRef','panel_states_reference');
+ setImg('logoImg','logo_primary');setImg('bondBear','bear_waving');setImg('gachaMachineBear','bear_waving');setImg('statCrown','icon_crown');setImg('statGamepad','icon_gamepad');setImg('statStar','icon_progress_star');setImg('soundIcon','icon_sound');setImg('settingsIcon','icon_settings');setImg('wavingBear','bear_waving');setImg('miniBear','bear_face');setImg('resultFace','bear_face');setImg('rCrown','icon_crown');setImg('rGamepad','icon_gamepad');setImg('rStar','icon_progress_star');setImg('replayIcon','icon_replay');setImg('restartReplayIcon','icon_replay');setImg('copyIcon','icon_copy');setImg('footerBear','bear_face');setImg('footerHeart','icon_heart');setImg('statesRef','panel_states_reference');
  // Proves and preserves all 44 embedded assets inside the document.
  $('assetProof').innerHTML=Object.keys(ASSETS).map(k=>`<img src="${ASSETS[k]}" alt="${k}">`).join('');
 }
 function updateTop(){const n=Object.keys(data.badges).length;$('bestTop').textContent=data.best==null?'--- ms':Math.round(data.best)+' ms';$('playsTop').textContent=data.plays;$('progressCount').textContent=`${n} / 16`;$('progressFill').style.width=(n/16*100)+'%';$('badgeCount').textContent=`${n}/16`;updateResultStats()}
 function updateResultStats(){$('resultBest').textContent=data.best==null?'---':Math.round(data.best);$('rBest').textContent=data.best==null?'---':Math.round(data.best)+' ms';$('rPlays').textContent=data.plays}
-function setBear(mode){stateAsset[mode]&&($('stateBearImg').src=ASSETS[stateAsset[mode]]);$('stateBear').classList.toggle('wide',mode==='flying');const rare=RARES.find(r=>r.id===data.lastRare);applyRareClass($('stateBearImg'),rare||null)}
+function setBear(mode){stateAsset[mode]&&($('stateBearImg').src=ASSETS[stateAsset[mode]]);$('stateBear').classList.toggle('wide',mode==='flying');applyRareClass($('stateBearImg'),null)}
 function setClass(name){$('reactionBox').className='reaction '+name}
 function renderRounds(){const wrap=$('rounds');wrap.innerHTML='';for(let i=0;i<3;i++){const d=document.createElement('div');d.className='round-item '+(i<round?'done':i===round&&state!=='result'?'active':'');d.innerHTML=`<div class="bubble">${i+1}</div><small>Round ${i+1}</small>`;wrap.appendChild(d)}}
 function primeAudio(){try{const C=window.AudioContext||window.webkitAudioContext;audio=audio||new C();if(audio.state==='suspended')audio.resume()}catch{}}
@@ -1501,13 +1781,13 @@ function beginFromRestartGate(){
   startGame();
 }
 
-function startGame(){primeAudio();clearTimeout(waitTimer);stopBgm();$('restartGate').classList.remove('show');const rare=maybeRareEncounter();round=0;times=[];hadFlying=false;latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');startRound();setTimeout(startBgm,80);if(rare)setTimeout(()=>showRareCelebration(rare),380)}
+function startGame(){primeAudio();clearTimeout(waitTimer);stopBgm();$('restartGate').classList.remove('show');data.lastRare=null;round=0;times=[];hadFlying=false;latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');startRound();setTimeout(startBgm,80)}
 function startRound(){state='waiting';setClass('waiting');setBear('waiting');$('mainCopy').textContent='待機中…';$('subCopy').textContent='まだ押さないで。緑になった瞬間にタップ！';renderRounds();const delay=1000+Math.random()*2000;waitTimer=setTimeout(()=>{state='ready';readyAt=performance.now();setClass('ready');setBear('ready');$('mainCopy').textContent='GO!';$('subCopy').textContent='今すぐタップ！';sounds.ready()},delay)}
 function flying(){clearTimeout(waitTimer);data.flyings++;hadFlying=true;state='flying';setClass('flying');setBear('flying');$('mainCopy').textContent='フライング！';$('subCopy').textContent='大丈夫。その場で同じラウンドをやり直します。';sounds.fly();save();setTimeout(startRound,1050)}
 function record(){const t=Math.max(1,Math.round(performance.now()-readyAt));times.push(t);round++;if(round<3){state='between';setClass('idle');setBear('between');$('mainCopy').innerHTML=`${t}<span class="ms">ms</span>`;$('subCopy').textContent='ナイス！ タップして次のラウンドへ。';renderRounds()}else finish()}
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function commentFor(avg){return historyAwareComment(avg)||pick(avg<260?comments.super:avg<320?comments.fast:avg<400?comments.good:avg<500?comments.avg:comments.slow)}
-function finish(){stopBgm();const titlesBefore=getTitles();const bondBefore=new Set(data.bondMilestones||[]);const avg=Math.round(times.reduce((a,b)=>a+b,0)/3),spread=Math.max(...times)-Math.min(...times),oldBest=data.best;data.plays++;if(hadFlying)data.recoveries++;if(spread<=50)data.stableClears++;let newBest=false,bestDelta=null;if(oldBest==null||avg<oldBest){bestDelta=oldBest==null?null:oldBest-avg;data.best=avg;if(oldBest!=null)data.bestUpdates++;newBest=true}data.history.push({avg,times:[...times],flying:hadFlying,spread,date:Date.now()});data.history=data.history.slice(-100);latestResult={avg,times:[...times],spread,hadFlying,newBest,comment:commentFor(avg)};const newly=checkBadges(latestResult);state='result';setClass('result');setBear('result');$('mainCopy').innerHTML=`<span class="time-big">${avg}<span class="ms">ms</span></span>`;$('subCopy').innerHTML=`${latestResult.comment}<br><span style="font-size:.86em">${times.join(' / ')} ms</span>`;renderRounds();renderResult();sounds.result();const unlockedBond=BOND_MILESTONES.filter(m=>data.plays>=m.plays&&!bondBefore.has(m.plays));data.bondMilestones=[...new Set([...(data.bondMilestones||[]),...unlockedBond.map(m=>m.plays)])];save();updateMasteryUI();const newTitles=getTitles().filter(t=>!titlesBefore.includes(t));if(bestDelta)setTimeout(()=>showBestImprovement(bestDelta),450);if(newly.length)setTimeout(()=>{sounds.badge();toast(`実績解除：${newly.map(id=>BADGES.find(b=>b[0]===id)[1]).join(' / ')}`)},bestDelta?2600:400);if(newTitles.length)setTimeout(()=>showTitleCelebrations(newTitles),bestDelta?3800:(newly.length?1400:650));if(unlockedBond.length)setTimeout(()=>showBondCelebrations(unlockedBond),bestDelta?5200:(newTitles.length?3000:1200));setTimeout(maybeShowCombo,bestDelta?7000:(unlockedBond.length?4200:1000));if(Object.keys(data.badges).length===16&&!data.allComplete){data.allComplete=true;save();setTimeout(()=>{sounds.fanfare();confetti();toast('全16実績コンプリート！',3300)},850)}}
+function finish(){stopBgm();const previousPlays=data.plays;const titlesBefore=getTitles();const bondBefore=new Set(data.bondMilestones||[]);const avg=Math.round(times.reduce((a,b)=>a+b,0)/3),spread=Math.max(...times)-Math.min(...times),oldBest=data.best;data.plays++;if(hadFlying)data.recoveries++;if(spread<=50)data.stableClears++;let newBest=false,bestDelta=null;if(oldBest==null||avg<oldBest){bestDelta=oldBest==null?null:oldBest-avg;data.best=avg;if(oldBest!=null)data.bestUpdates++;newBest=true}data.history.push({avg,times:[...times],flying:hadFlying,spread,date:Date.now()});data.history=data.history.slice(-100);latestResult={avg,times:[...times],spread,hadFlying,newBest,comment:commentFor(avg)};const newly=checkBadges(latestResult);state='result';setClass('result');setBear('result');$('mainCopy').innerHTML=`<span class="time-big">${avg}<span class="ms">ms</span></span>`;$('subCopy').innerHTML=`${latestResult.comment}<br><span style="font-size:.86em">${times.join(' / ')} ms</span>`;renderRounds();renderResult();sounds.result();const unlockedBond=BOND_MILESTONES.filter(m=>data.plays>=m.plays&&!bondBefore.has(m.plays));data.bondMilestones=[...new Set([...(data.bondMilestones||[]),...unlockedBond.map(m=>m.plays)])];awardPlayTickets(previousPlays,newBest);save();updateMasteryUI();updateGachaUI();const newTitles=getTitles().filter(t=>!titlesBefore.includes(t));if(bestDelta)setTimeout(()=>showBestImprovement(bestDelta),450);if(newly.length)setTimeout(()=>{sounds.badge();toast(`実績解除：${newly.map(id=>BADGES.find(b=>b[0]===id)[1]).join(' / ')}`)},bestDelta?2600:400);if(newTitles.length)setTimeout(()=>showTitleCelebrations(newTitles),bestDelta?3800:(newly.length?1400:650));if(unlockedBond.length)setTimeout(()=>showBondCelebrations(unlockedBond),bestDelta?5200:(newTitles.length?3000:1200));setTimeout(maybeShowCombo,bestDelta?7000:(unlockedBond.length?4200:1000));if(Object.keys(data.badges).length===16&&!data.allComplete){data.allComplete=true;save();setTimeout(()=>{sounds.fanfare();confetti();toast('全16実績コンプリート！',3300)},850)}}
 function renderResult(){const r=latestResult;if(!r)return;$('resultCard').classList.add('show');$('mainActions').classList.add('show');$('resultBanner').textContent=r.newBest?'NEW BEST!':'RESULT!';$('resultAverage').textContent=r.avg+' ms';$('resultComment').textContent=r.comment;updateResultStats()}
 function checkBadges(r){const before={...data.badges},unlock=id=>data.badges[id]=true;if(data.plays>=1)unlock('p1');if(data.plays>=5)unlock('p5');if(data.plays>=10)unlock('p10');if(data.plays>=20)unlock('p20');if(data.plays>=30)unlock('p30');if(r.avg<500)unlock('t500');if(r.avg<400)unlock('t400');if(r.avg<300)unlock('t300');if(r.avg<260)unlock('t260');if(data.bestUpdates>=1)unlock('b1');if(data.bestUpdates>=2)unlock('b2');if(!r.hadFlying)unlock('clean');if(r.times.every(x=>x<350))unlock('all350');if(r.hadFlying)unlock('recovery');if(r.spread<=50)unlock('stable');if(data.shareCount>=1)unlock('share');return Object.keys(data.badges).filter(k=>!before[k])}
 function renderBadges(){const list=BADGES;$('badgeGrid').innerHTML=list.map(([id,n,d,img])=>`<div class="badge ${data.badges[id]?'unlocked':''}"><img src="${ASSETS[img]}"><b>${n}</b></div>`).join('');$('allBadges').innerHTML=BADGES.map(([id,n,d,img])=>`<div class="all-badge ${data.badges[id]?'':'locked'}"><img src="${ASSETS[img]}"><b>${n}</b><small>${d}</small></div>`).join('')}
@@ -1539,6 +1819,34 @@ function ensureSelectedTitle(){
     data.selectedTitle=titles[0];
   }
 }
+
+function renderRareGallery(){
+  const grid=$('rareGalleryGrid'), seen=data.rareSeen||{};
+  const count=Object.keys(seen).filter(id=>RARES.some(r=>r.id===id)).length;
+  $('rareGalleryCount').textContent=`${count} / ${RARES.length}`;
+  grid.innerHTML=RARES.map(rare=>{
+    const unlocked=!!seen[rare.id];
+    return `<button class="rare-gallery-item ${unlocked?'':'locked'}" ${unlocked?`data-rare="${rare.id}"`:''} type="button">
+      <span class="rare-thumb-stage"><img src="${ASSETS.bear_victory}" class="${unlocked?rare.cls:''}" alt="${unlocked?rare.name:'未獲得'}"></span>
+      <strong>${unlocked?rare.name:'？？？'}</strong>
+      <span class="rare-rarity-tag">${unlocked?rare.rarity:'?'}</span>
+      <small>${unlocked?'タップして大きく表示':'ガチャで出会えます'}</small>
+    </button>`;
+  }).join('');
+  grid.querySelectorAll('[data-rare]').forEach(btn=>btn.onclick=()=>openRarePreview(btn.dataset.rare));
+}
+function openRareGallery(){renderRareGallery();openModal('rareGalleryModal')}
+function openRarePreview(id){
+  const rare=RARES.find(r=>r.id===id);
+  if(!rare||!data.rareSeen?.[id])return;
+  $('rarePreviewBear').src=ASSETS.bear_victory;
+  applyRareClass($('rarePreviewBear'),rare);
+  $('rarePreviewTitle').textContent=rare.name;
+  $('rarePreviewText').textContent=rare.text;
+  closeModal('rareGalleryModal');
+  setTimeout(()=>openModal('rarePreviewModal'),120);
+}
+
 function renderSelectedTitle(){
   ensureSelectedTitle();
   const text=$('selectedTitleText');
@@ -1647,10 +1955,11 @@ $('restartStartBtn').onclick=(e)=>{
   beginFromRestartGate();
 };
 $('reactionBox').addEventListener('click',clickHandler);$('reactionBox').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();clickHandler()}});
-$('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('selectedTitleButton').onclick=()=>{renderTitleSelectList();openModal('titleSelectModal')};$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
+$('againBtn').onclick=showRestartReady;$('shareBtn').onclick=shareResult;$('gachaButton').onclick=openGacha;$('gachaPullBtn').onclick=pullGacha;$('rareMini').onclick=openRareGallery;
+$('selectedTitleButton').onclick=()=>{renderTitleSelectList();openModal('titleSelectModal')};$('viewAllBadges').onclick=()=>openModal('badgeModal');$('settingsBtn').onclick=()=>openModal('settingsModal');$('soundBtn').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};$('soundSwitch').onclick=()=>{data.sound=!data.sound;if(!data.sound)stopBgm();else if(['waiting','ready','between','flying'].includes(state))startBgm();save()};
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
-$('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');$('restartGate').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
-function init(){setStaticAssets();setBear('idle');updateTop();renderBadges();renderTitles();renderSelectedTitle();renderRounds();updateMasteryUI();syncSound()}
+$('resetBtn').onclick=()=>{if(confirm('KUMAGOROの記録・実績をすべてリセットしますか？')){localStorage.removeItem(STORE);stopBgm();data={...base,badges:{},history:[],rareSeen:{},bondMilestones:[]};state='idle';round=0;times=[];latestResult=null;$('resultCard').classList.remove('show');$('mainActions').classList.remove('show');$('restartGate').classList.remove('show');setClass('idle');setBear('idle');$('mainCopy').textContent='タップしてスタート';$('subCopy').textContent='緑になった瞬間にタップ。3回の平均を測ります。';save();renderRounds();closeModal('settingsModal');toast('記録をリセットしました')}};
+function init(){setStaticAssets();setBear('idle');migrateGachaData();updateTop();renderBadges();renderTitles();renderSelectedTitle();renderRounds();updateMasteryUI();updateGachaUI();save();syncSound()}
 init();
 })();
 </script>
